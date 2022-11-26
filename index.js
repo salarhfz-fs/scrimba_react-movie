@@ -1,12 +1,11 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-
 const container = document.getElementById('root');
-const root = createRoot(container);
+const root = ReactDOM.createRoot(container);
 
-function App () {
+function App() {
     return (
-        <h1>Hello world!</h1>
+        <div className='container'>
+            <h1 className='title'>React Movie Search</h1>
+        </div>
     );
 }
 
