@@ -5,15 +5,25 @@ const getUrl = query => `https://api.themoviedb.org/3/search/movie?api_key=c560a
 
 function SearchMovies() {
     const [query, setQuery] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState('');
 
     const searchMovies = async (e) => {
+        setLoading(true);
+        setError('');
         e.preventDefault();
-        const response = await fetch(getUrl(query));
-        if (response.ok) {
-            const response_json = response.json();
-            console.log(response_json);
-        } else {
-
+        try {
+            const response = await fetch(getUrl(query));
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            } else {
+                setError('Something went wrong :(');
+            }
+        } catch (error) {
+            setError('Something went wrong :(');
+        } finally {
+            setLoading(false);
         }
 
     };
@@ -32,7 +42,8 @@ function SearchMovies() {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
             />
-            <button className='button' type='submit'>Search</button>
+            <button className='button' type='submit' disabled={loading}>{loading ? 'Loading movies...' : 'Search'}</button>
+            {error && <p className='error'>{error}</p>}
         </form>
     );
 }
