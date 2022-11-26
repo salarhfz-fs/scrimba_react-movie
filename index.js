@@ -7,6 +7,7 @@ function SearchMovies() {
     const [query, setQuery] = React.useState('');
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState('');
+    const [movies, setMovies] = React.useState([]);
 
     const searchMovies = async (e) => {
         setLoading(true);
@@ -16,7 +17,7 @@ function SearchMovies() {
             const response = await fetch(getUrl(query));
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                setMovies(data?.results);
             } else {
                 setError('Something went wrong :(');
             }
@@ -25,26 +26,44 @@ function SearchMovies() {
         } finally {
             setLoading(false);
         }
-
     };
 
     return (
-        <form className='form' onSubmit={searchMovies}>
-            <label htmlFor='query' className='label'>
-                Movie name
-            </label>
-            <input
-                className='input'
-                type='text'
-                id='query'
-                name='query'
-                placeholder='i.e. Leon the Professional'
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-            />
-            <button className={`button ${loading ? 'disabled' : ''}`} type='submit'>{loading ? 'Loading movies...' : 'Search'}</button>
-            {error && <p className='error'>{error}</p>}
-        </form>
+        <>
+            <form className='form' onSubmit={searchMovies}>
+                <label htmlFor='query' className='label'>
+                    Movie name
+                </label>
+                <input
+                    className='input'
+                    type='text'
+                    id='query'
+                    name='query'
+                    placeholder='i.e. Leon the Professional'
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                />
+                <button className={`button ${loading ? 'disabled' : ''}`} type='submit'>{loading ? 'Loading movies...' : 'Search'}</button>
+                {error && <p className='error'>{error}</p>}
+            </form>
+            <div className='card-list'>
+                {movies.map(movie => (
+                    <div className='card' key={movie.id}>
+                        <img
+                            className='card--image'
+                            src={movie.poster_path ? `https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}` : 'https://via.placeholder.com/185x278'}
+                            alt={movie.title}
+                        />
+                        <div className='card--content'>
+                            <h3 className='card--title'>{movie.title}</h3>
+                            <p><small>RELEASE DATE: {movie.release_date}</small></p>
+                            <p><small>RATING: {movie.vote_average}</small></p>
+                            <p className='card--desc'>{movie.overview}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </>
     );
 }
 
