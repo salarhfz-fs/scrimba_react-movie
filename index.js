@@ -42,7 +42,7 @@ function SearchMovies() {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
             />
-            <button className='button' type='submit' disabled={loading}>{loading ? 'Loading movies...' : 'Search'}</button>
+            <button className={`button ${loading ? 'disabled' : ''}`} type='submit'>{loading ? 'Loading movies...' : 'Search'}</button>
             {error && <p className='error'>{error}</p>}
         </form>
     );

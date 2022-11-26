@@ -62,6 +62,10 @@ small {
     transition: background-color 250ms;
 }
 
+.button.disabled {
+    pointer-events: none;
+}
+
 .button:hover {
     background-color: rgba(0, 0, 0, .85);
 }
