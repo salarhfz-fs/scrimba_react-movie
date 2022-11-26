@@ -17,7 +17,7 @@ function SearchMovies() {
             const response = await fetch(getUrl(query));
             if (response.ok) {
                 const data = await response.json();
-                setMovies(data?.results);
+                setMovies(data.results);
             } else {
                 setError('Something went wrong :(');
             }
