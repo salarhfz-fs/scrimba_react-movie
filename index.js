@@ -29,7 +29,7 @@ function SearchMovies() {
     };
 
     return (
-        <>
+        <React.Fragment>
             <form className='form' onSubmit={searchMovies}>
                 <label htmlFor='query' className='label'>
                     Movie name
@@ -63,7 +63,7 @@ function SearchMovies() {
                     </div>
                 ))}
             </div>
-        </>
+        </React.Fragment>
     );
 }
 
